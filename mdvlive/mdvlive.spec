@@ -1,9 +1,9 @@
-# $Id: mdvlive.spec,v 1.1 2005/06/11 13:49:59 alain Exp $
+# $Id: mdvlive.spec,v 1.2 2005/06/11 19:10:28 alain Exp $
 # changed by chris, 06-06-2005
 
 %define name	mdvlive
-%define version	0.5.9
-%define release	0.20050610.1mdk
+%define version	@MDVLIVEVER@
+%define release	@MDVLIVEREL@mdk
 
 %define summary	Builds a LiveCD from an existing Mandriva Linux installation
 
@@ -14,7 +14,7 @@ Release:	%{release}
 License:	GPL
 Group:		System/Configuration/Boot and Init
 URL:		http://www.rainbowlinux.org/
-Source0:	%{name}-0.5.9-20050610.tar.bz2
+Source0:	%{name}-@ARCHIVEVER@.tar.bz2
 Requires:	busybox >= 1:1.00-0.pre4.2mdk, cloop-utils >= 1.02-4mdk
 Requires:	mediacheck, mkisofs, squashfs-tools >= 1.4-0.1mdk
 Requires:	syslinux >= 1.76-15mdk
@@ -35,7 +35,7 @@ When booting from this LiveCD, the data is transparently decompressed as needed
 with almost no performance impact.
 
 %prep
-%setup -q -n %{name}-0.5.9-20050610
+%setup -q -n %{name}-@ARCHIVEVER@
 
 %build
 %make
@@ -58,8 +58,8 @@ rm -rf %buildroot
 %{_datadir}/mdvlive/rc.sysinit
 
 %changelog
-* Fri Jun 10 2005 Chris <info@rainbowlinux.org> 0.5.9-0.20050610.1mdk
-- version 0.5.9-20050610
+* @SPECDATE@ Chris <info@rainbowlinux.org> @MDVLIVEVER@-@MDVLIVEREL@mdk
+- version @ARCHIVEVER@
 - last cvs checkout for a working Mandriva LE 2005 and cooker
 - reverted the xres changes in hwdetect, was made for pclos, broke Mandriva
 - deleted the symlink creations in 'mklivecd', never worked properly
