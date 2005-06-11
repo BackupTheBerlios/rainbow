@@ -1,0 +1,95 @@
+# $Id: mdvlive.spec.in,v 1.1 2005/06/11 19:42:17 alain Exp $
+# changed by chris, 06-06-2005
+
+%define name	mdvlive
+%define version	@MDVLIVEVER@
+%define release	@MDVLIVEREL@mdk
+
+%define summary	Builds a LiveCD from an existing Mandriva Linux installation
+
+Summary:	%{summary}
+Name:		%{name}
+Version:	%{version}
+Release:	%{release}
+License:	GPL
+Group:		System/Configuration/Boot and Init
+URL:		http://www.rainbowlinux.org/
+Source0:	%{name}-@ARCHIVEVER@.tar.bz2
+Requires:	busybox >= 1:1.00-0.pre4.2mdk, cloop-utils >= 1.02-4mdk
+Requires:	mediacheck, mkisofs, squashfs-tools >= 1.4-0.1mdk
+Requires:	syslinux >= 1.76-15mdk
+BuildRoot:	%{_tmppath}/%{name}-root
+Buildarch:	noarch
+
+%description
+The mdvlive tools are dedicated to providing you with the capability to
+create your own LiveCD from a currently installed Mandriva Linux distribution.
+It can be used to create your own travelling Mandriva-based LiveCD, specialised
+LiveCD featuring custom-developed applications or to put together a demo disk
+to show off the power of our favourite OS. The possibilities are endless!
+
+Created CD's feature automatic hardware detection and setup. In addition, it
+utilises compression technology allowing you to build a LiveCD from a partition
+much larger than will typically fit on a CD. (Up to 2GB for a normal 650MB CD.)
+When booting from this LiveCD, the data is transparently decompressed as needed
+with almost no performance impact.
+
+%prep
+%setup -q -n %{name}-@ARCHIVEVER@
+
+%build
+%make
+
+%install
+rm -rf %buildroot
+%makeinstall_std
+
+%clean
+rm -rf %buildroot
+
+%files
+%defattr(-,root,root)
+%doc AUTHORS COPYING CHANGELOG FAQ README README.BOOTCODES README.USB TODO
+%{_sbindir}/mdvlive
+%{_sbindir}/hwdetect
+%dir %{_datadir}/mdvlive
+%{_datadir}/mdvlive/linuxrc
+%{_datadir}/mdvlive/halt.local
+%{_datadir}/mdvlive/rc.sysinit
+
+%changelog
+* @SPECDATE@ Chris <info@rainbowlinux.org> @MDVLIVEVER@-@MDVLIVEREL@mdk
+- version @ARCHIVEVER@
+- last cvs checkout for a working Mandriva LE 2005 and cooker
+- reverted the xres changes in hwdetect, was made for pclos, broke Mandriva
+- deleted the symlink creations in 'mklivecd', never worked properly
+- mklivecd: added a safeboot option to isolinux.cfg
+- from mklivecd to mdvlive
+
+* Wed Dec 03 2003 Per Øyvind Karlsen <peroyvind@linux-mandrake.com> 0.5.6-2mdk
+- spec fixes
+- fix unowned dir
+
+* Mon Oct  6 2003 Jaco Greeff <jaco@linuxminicd.org> 0.5.6-1mdk
+- version 0.5.6
+- spec fixes by Buchan Milne <bgmilne@cae.co.za>
+
+* Sat Sep 27 2003 Tibor Pittich <Tibor.Pittich@phuture.sk> 0.5.5-2mdk
+- rebuild
+
+* Thu Sep 25 2003 Jaco Greeff <jaco@linuxminicd.org> 0.5.5-1mdk
+- version 0.5.5
+
+* Wed Sep 24 2003 Tibor Pittich <Tibor.Pittich@phuture.sk> 0.5.4-2mdk
+- spec fixes
+
+* Tue Sep 23 2003 Jaco Greeff <jaco@linuxminicd.org> 0.5.4-1mdk
+- version 0.5.4
+- removed patch0, fixed upstream
+
+* Mon Sep 22 2003 Tibor Pittich <Tibor.Pittich@phuture.sk> 0.5.3-1mdk
+- initial import into contrib, based on spec file from Jaco Greeff
+- fixed requires (mkisofs)
+- temporary locale fix to correct calculate initrd size
+- correct mdk group name
+- some macroszification
